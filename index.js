@@ -6,7 +6,7 @@ const path = require('path');
 const api = 'http://archive.org/wayback/available?url=';
 const options = (url, json = true) => ({
     proxy: 'http://localhost:8888/',
-    uri: api + url,
+    uri: json ? api + url : url,
     json,
 });
 
@@ -23,17 +23,22 @@ const res = lines.filter(l => l.length > 0).map(l => {
 
 console.log(process.cwd())
 
-res.slice(0, 4).map(e => {
+res.filter(e => e.title.indexOf('British Army') > -1 && e.title.indexOf('181') > -1).slice(0, 3).map(e => {
     r(options(e.url)).then(r => {
         if (r.archived_snapshots.closest) {
-            const url = r.archived_snapshots.closest.url;
-
-            r(options(url, false)).then(file => {
-                console.log('Found: ' + e.title);
-                
-                const out = path.join(process.cwd(), e.title, '.pdf');
-                fs.writeFileSync(out, file);
-            })
+            return r.archived_snapshots.closest.url.replace('/http://', 'if_/http://');
         }
-    })
+    }).then(url => {
+        if(!url)
+            return;
+        console.log('Found: ' + e.title + ' at ' + url);
+
+        r(options(url, false)).then(file => {
+
+            const out = path.join(process.cwd(), 'oobs', e.title + '.pdf');
+            fs.writeFileSync(out, file);
+        });
+
+    });
+
 });
