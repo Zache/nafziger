@@ -1,0 +1,23 @@
+{
+  "name": "nafziger",
+  "version": "1.0.0",
+  "description": "just a tool to download stuffs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zache/nafziger.git"
+  },
+  "author": "Zacharias Björngren",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/zache/nafziger/issues"
+  },
+  "homepage": "https://github.com/zache/nafziger#readme",
+  "dependencies": {
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}
